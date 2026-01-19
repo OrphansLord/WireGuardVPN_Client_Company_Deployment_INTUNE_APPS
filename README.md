@@ -6,3 +6,8 @@ Previously, you should have a folder containing all the .conf files of each empl
 I have also include an script to modify the names of the folder to stablish the following criteria: name_surname.conf
 
 I hope it helps anyone! <3
+
+# INSTRUCTIONS FOR DEPLOYMENT 
+If you want to deploy this tool you will have to do the following changes:
+- Change "COMPANY" --> "Tenant Company Name"
+- Change "NAMESURNAME --> "Tenant Employee Username"
