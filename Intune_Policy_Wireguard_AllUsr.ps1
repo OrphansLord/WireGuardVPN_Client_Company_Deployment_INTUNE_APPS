@@ -1,19 +1,19 @@
 <# 
-    CTGEU – WireGuard .conf installer (Intune)
-    - Match *.conf named as nombre_apellido.conf with device primary user
-    - New profile policy: C:\Users\NOMBREAPELLIDO (uppercase, no underscore)
+    – WireGuard .conf installer (Intune)
+    - Match *.conf named as name_surname.conf with device primary user
+    - New profile policy: C:\Users\NAMESURNAME (uppercase, no underscore)
     - Copies .conf to WG config dir and installs tunnel as service
-    - Logs to C:\ProgramData\CTGEU\WG\Logs\
+    - Logs to C:\ProgramData\COMPANY\WG\Logs\
 #>
 
 #region Config
 $ConfSearchRoots = @(
     "C:\Users\*\Downloads",
-    "C:\ProgramData\CTGEU\WG\Staging"
+    "C:\ProgramData\COMPANY\WG\Staging"
 )
 $WireGuardExe       = "C:\Program Files\WireGuard\wireguard.exe"
 $WgConfigDestFolder = "C:\Program Files\WireGuard\Data\Configurations"
-$LogDir             = "C:\ProgramData\CTGEU\WG\Logs"
+$LogDir             = "C:\ProgramData\COMPANY\WG\Logs"
 New-Item -Path $LogDir -ItemType Directory -Force | Out-Null
 $LogFile = Join-Path $LogDir ("wg_deploy_{0}.csv" -f (Get-Date -Format "yyyyMMdd_HHmmss"))
 "Timestamp,ComputerName,PrimaryUserTag,SelectedConf,Result,Message" | Out-File -FilePath $LogFile -Encoding UTF8
@@ -107,8 +107,8 @@ function Find-ConfForUserTag {
 
 try {
     # --- Pre-checks ---
-    if ($env:COMPUTERNAME -notmatch '^CTGE-') {
-        Write-LogRow -PrimaryUserTag "" -SelectedConf "" -Result "Skipped" -Message "Hostname does not match CTGE-*"
+    if ($env:COMPUTERNAME -notmatch '^COMPANY-') {
+        Write-LogRow -PrimaryUserTag "" -SelectedConf "" -Result "Skipped" -Message "Hostname does not match COMPANY-*"
         exit 0
     }
     if (-not (Test-AADJoined)) {
